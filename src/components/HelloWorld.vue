@@ -20,6 +20,7 @@
       <p class="resultCode">{{ code }}</p>
       <button @click="startScan">Scan</button>
       <button aria-label="close" @click.prevent.stop="stopScan"> Stop </button>
+      <p>{{errq}}</p>
     </div>
   </div>
 
@@ -65,6 +66,7 @@ export default {
       decodedText: "",
       decodedResult: "",
       result: "",
+      errq: '',
     };
   },
   computed: {
@@ -115,8 +117,12 @@ export default {
       });
     },
     startScan() {
+      try {
       this.code = "";
       this.initQuagga();
+      } catch (e) {
+        this.errq = e
+      }
     },
     stopScan() {
       this.Quagga.offProcessed(this.onProcessed)
