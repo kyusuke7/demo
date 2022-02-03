@@ -1,5 +1,6 @@
 <template>
 <div>
+  v1
   <hr>
   <div>
     <h1> navigator user media </h1>
@@ -34,10 +35,6 @@
     style="width: 500px;"
     @result="onScan"
   />
-
-
-      <div id="cameraArea2"> <img v-if="code.length" src="" alt="result" class="resultImg2" /> </div>
-      <p v-if="false" class="getMessage2">取得できました</p>
       <p class="resultCode">{{ decodedText }}</p>
       <p class="resultCode">{{ decodedResult }}</p>
     </div>
@@ -148,6 +145,7 @@ export default {
     onInit(err) {
       if (err) {
         console.log(err);
+        this.errq = err
         return;
       }
       console.info("Initialization finished. Ready to start");
