@@ -40,8 +40,6 @@
       <p v-if="false" class="getMessage2">取得できました</p>
       <p class="resultCode">{{ decodedText }}</p>
       <p class="resultCode">{{ decodedResult }}</p>
-      <button @click="startScan">Scan</button>
-      <button aria-label="close" @click.prevent.stop="stopScan"> Stop </button>
     </div>
   </div>
 </div>
