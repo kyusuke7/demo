@@ -2,6 +2,17 @@
 <div>
   <hr>
   <div>
+    <h1> navigator user media </h1>
+    <div>
+      <button @click.prevent.stop="getCamera()"> get camera </button>
+  <p>
+  {{result}}
+  </p>
+    </div>
+  </div>
+
+  <hr>
+  <div>
     <h1> quagga2 demo </h1>
     <div>
       <div id="cameraArea"> <img v-if="code.length" src="" alt="result" class="resultImg" /> </div>
@@ -53,6 +64,7 @@ export default {
       code: "",
       decodedText: "",
       decodedResult: "",
+      result: "",
     };
   },
   computed: {
@@ -60,7 +72,49 @@ export default {
   watch: {
   },
   methods: {
-        startScan() {
+    getCamera(){
+      console.log('aaaaaaaaaaaaaaaaaaa');
+      return new Promise((resolve, reject) => {
+        navigator.mediaDevices.getUserMedia(
+          { audio: false, video: true })
+          .then((stream) => {
+            this.result = 'then: ' + stream;
+            // hacky approach to close any active stream if they are
+            // active.
+            const closeActiveStreams = (stream) => {
+              const tracks = stream.getVideoTracks();
+              for (const track of tracks) {
+                track.enabled = false;
+                track.stop();
+                stream.removeTrack(track);
+              }
+            }
+
+            navigator.mediaDevices.enumerateDevices()
+              .then((devices) => {
+                const results = [];
+                for (const device of devices) {
+                  if (device.kind === "videoinput") {
+                    results.push({
+                      id: device.deviceId,
+                      label: device.label
+                    });
+                  }
+                }
+                closeActiveStreams(stream);
+                resolve(results);
+              })
+              .catch((err) => {
+                reject(`${err.name} : ${err.message}`);
+              });
+          })
+          .catch((err) => {
+            this.result = 'err:' + err;
+            reject(`${err.name} : ${err.message}`);
+          });
+      });
+    },
+    startScan() {
       this.code = "";
       this.initQuagga();
     },
