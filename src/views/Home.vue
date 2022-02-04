@@ -21,6 +21,19 @@ export default {
   name: 'Home',
   components: {
     HelloWorld
+  },
+  data() {
+    return {
+      trans: false
+    }
+  },
+  methods: {
+    move: () => {
+      this.trans = true
+    }
   }
 }
 </script>
+<style scoped>
+</style>
+

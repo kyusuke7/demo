@@ -1,8 +1,17 @@
 <template>
     <div class="App">
+  <transition v-if="hoge" appear
+    v-on:enter="enter"
+    v-on:after-enter="afterEnter"
+>
+  <div id="lay">
+  ooooooooo
+  </div>
+  </transition>
     <nav class="App__nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <!--router-link to="/about">About</router-link-->
+      <a @click="move()">About</a>
     </nav>
     <main class="App__main">
       <transition name="fade">
@@ -22,6 +31,24 @@ export default {
   components: {
     //TransitionPage,
   },
+  data: function() {
+      return {
+          hoge: false,
+      };
+  },
+  methods: {
+    move: function() {
+      console.log("a")
+      this.hoge = true
+    },
+    enter: function() {
+      console.log("b")
+    },
+    afterEnter: function() {
+      console.log("c")
+      // this.router.push(hoge)
+    },
+  }
 };
 </script>
 
@@ -62,35 +89,32 @@ p {
     border-top: 1px solid #c0c0c0;
   }
 }
-/*
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}*/
 
-.fade-enter-active,
-.fade-leave-active {
-  animation-duration: 5.5s;
-  animation-fill-mode: both;
-  animation-name: fade;
+.v-enter-active, .v-leave-active {
+    animation: slide-in .5s;
+
 }
-.fade-leave-active {
-  /*animation-direction: reverse;*/
+
+.v-enter, .v-leave-to {
+  opacity: 0;
+  left: 100%;
+    transform: translatex(100%);
 }
-@keyframes fade {
-  from {
-    opacity: 1;
-    background: #40b983;
-    /* transform: scale3d(0.3, 0.3, 0.3);*/
-    position: absolute;
-    left: 100%;
+
+#lay {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #40b983
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translatex(100%);
   }
   100% {
-    opacity: 1;
-    position: absolute;
-    left: 0;
+    transform: translatex(0);
   }
 }
 
