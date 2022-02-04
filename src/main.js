@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import {Html5QrcodeScanner} from "html5-qrcode"
+import router from './router'
 
 Vue.config.productionTip = false
 
@@ -32,5 +33,6 @@ Vue.component('qrcode-scanner', {
 });
 
 new Vue({
-  render: h => h(App),
+  router,
+  render: h => h(App)
 }).$mount('#app')
